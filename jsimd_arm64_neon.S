@@ -203,33 +203,14 @@ asm_function jsimd_idct_islow_neon
     OUTPUT_COL      .req x3
     TMP1            .req x0
     TMP2            .req x1
-    TMP3            .req x2
-    TMP4            .req x15
+    TMP3            .req x9
+    TMP4            .req x10
+    TMP5            .req x11
+    TMP6            .req x12
+    TMP7            .req x13
+    TMP8            .req x14
 
-    /* OUTPUT_COL is a JDIMENSION (unsigned int) argument, so the ABI doesn't
-       guarantee that the upper (unused) 32 bits of x3 are valid.  This
-       instruction ensures that those bits are set to zero. */
-    uxtw x3, w3
-
-    ROW0L           .req v16
-    ROW0R           .req v17
-    ROW1L           .req v18
-    ROW1R           .req v19
-    ROW2L           .req v20
-    ROW2R           .req v21
-    ROW3L           .req v22
-    ROW3R           .req v23
-    ROW4L           .req v24
-    ROW4R           .req v25
-    ROW5L           .req v26
-    ROW5R           .req v27
-    ROW6L           .req v28
-    ROW6R           .req v29
-    ROW7L           .req v30
-    ROW7R           .req v31
-    /* Save all NEON registers and x15 (32 NEON registers * 8 bytes + 16) */
-    sub             sp, sp, 272
-    str             x15, [sp], 16
+    sub             sp, sp, #64
     adr             x15, Ljsimd_idct_islow_neon_consts
     st1             {v8.8b, v9.8b, v10.8b, v11.8b}, [sp], #32
     st1             {v12.8b, v13.8b, v14.8b, v15.8b}, [sp], #32
@@ -825,11 +806,6 @@ asm_function jsimd_idct_ifast_neon
     TMP6            .req x12
     TMP7            .req x13
     TMP8            .req x14
-
-    /* OUTPUT_COL is a JDIMENSION (unsigned int) argument, so the ABI doesn't
-       guarantee that the upper (unused) 32 bits of x3 are valid.  This
-       instruction ensures that those bits are set to zero. */
-    uxtw x3, w3
 
     /* Load and dequantize coefficients into NEON registers
      * with the following allocation:
